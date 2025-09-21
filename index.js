@@ -1,32 +1,30 @@
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-const app = express();
+var express = require('express');
+var cors = require('cors');
+var multer = require('multer');
+require('dotenv').config()
 
-// Set up multer for file uploads. 
-// 'dest: 'uploads/'' would save files to an 'uploads' folder.
-// For this project, we only need the file data in memory, so we don't specify a destination.
-const upload = multer();
+// Initialize multer. We don't need to save the file, just process it in memory.
+var upload = multer();
+var app = express();
 
 app.use(cors());
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(process.cwd() + '/public'));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'views/index.html'));
+  res.sendFile(process.cwd() + '/views/index.html');
 });
 
-// API endpoint for file analysis
-// The 'upload.single('upfile')' middleware will process a single file upload
-// from the form field named 'upfile'.
-app.post('/api/fileanalyse', upload.single('upfile'), function (req, res) {
-  // req.file is an object that contains metadata about the uploaded file.
-  // It's populated by the multer middleware.
+// The API endpoint for file analysis.
+// 'upload.single('upfile')' is the multer middleware that handles the file upload.
+// It looks for a file in a form field named 'upfile'.
+app.post('/api/fileanalyse', upload.single('upfile'), (req, res) => {
+  // multer adds a 'file' object to the request object (req).
+  // This object contains metadata about the uploaded file.
   if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
+    return res.status(400).json({ error: 'No file was uploaded.' });
   }
 
-  // Respond with the required file metadata in a JSON object
+  // Respond with the required JSON structure
   res.json({
     name: req.file.originalname,
     type: req.file.mimetype,
@@ -38,4 +36,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log('Your app is listening on port ' + port)
 });
-

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File Metadata Microservice</title>
+    <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png"
+      type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+    <link href="/public/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>File Metadata Microservice</h1>
+      <p>
+        Submit a file to view its name, type, and size in bytes.
+      </p>
+      <div class="form-container">
+        <form action="/api/fileanalyse" method="post" enctype="multipart/form-data">
+          <label for="file_input">Choose a file:</label>
+          <input id="file_input" name="upfile" type="file" />
+          <input type="submit" value="Upload" />
+        </form>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>By <a href="https://www.freecodecamp.org/">freeCodeCamp</a></p>
+    </footer>
+  </body>
+</html>
+
